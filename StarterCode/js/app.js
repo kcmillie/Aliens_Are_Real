@@ -18,30 +18,45 @@ submit.on("click", function() {
 
   // Get the value property of the input element
   var dateValue = dateElement.property("value");
-  var cityValue = cityElement.property("value");
-  var stateValue = stateElement.property("value");
-  var countryValue = countryElement.property("value");
-  var shapeValue = shapeElement.property("value");
+  var cityValue = cityElement.property("value").toLowerCase();
+  var stateValue = stateElement.property("value").toLowerCase();
+  var countryValue = countryElement.property("value").toLowerCase();
+  var shapeValue = shapeElement.property("value").toLowerCase();
 
-  console.log("date entered: " + dateValue);
-  console.log("city entered: " + cityValue);
-  console.log("state entered: " + stateValue);
-  console.log("country entered: " + countryValue);
-  console.log("shape entered: " + shapeValue);
-
-  // var filteredData = tableData.filter(d => d.datetime === inputValue);
+  var filteredData = tableData.map(function(tableData) {
+    return tableData;
+  })
+  if(dateValue){
+    console.log("date entered: " + dateValue);
+    filteredData = filteredData.filter(d => d.datetime === dateValue);
+  }
+  if(cityValue){
+    console.log("city entered: " + cityValue);
+    filteredData = filteredData.filter(d => d.city === cityValue);
+  }
+  if(stateValue){
+    console.log("state entered: " + stateValue);
+    filteredData = filteredData.filter(d => d.state === stateValue);
+  }
+  if(countryValue){
+    console.log("country entered: " + countryValue);
+    filteredData = filteredData.filter(d => d.country === countryValue);
+  }
+  if(shapeValue){
+    console.log("shape entered: " + shapeValue);
+    filteredData = filteredData.filter(d => d.shape === shapeValue);
+  }
 
   // //select table
-  // var table = d3.select("table");
+  var table = d3.select("table");
   // //Select table body
-  // var tbody = d3.select("tbody");
+  var tbody = d3.select("tbody");
 
-  // for (var i in filteredData){
-  //     var row = tbody.append("tr");
-  //     var dictionary = filteredData[i];
-  //     for (var key in dictionary){
-  //         row.append("td").text(dictionary[key]);
-  //     }
-  // }
-
+  filteredData.forEach((d) => {
+    var row = tbody.append("tr");
+    Object.entries(d).forEach(([k, v]) => {
+      var cell = tbody.append("td");
+      cell.text(v);
+    });
+  });
 });
